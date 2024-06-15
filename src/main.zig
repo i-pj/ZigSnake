@@ -82,7 +82,7 @@ pub const Game = struct {
 };
 
 pub fn main() !void {
-    rl.InitWindow(600, 600, "SNAKE GAME");
+    rl.InitWindow(600, 600, "ZigSnake");
     rl.SetTargetFPS(60);
 
     var game = Game.init();
