@@ -71,7 +71,7 @@ pub const Game = struct {
 
     pub fn draw(self: *Game) void {
         rl.DrawRectangle(self.snake.x * 40, self.snake.y * 40, 40, 40, rl.Color{ .r = 255, .g = 0, .b = 0, .a = 255 });
-        rl.DrawRectangle(self.food.x * 40, self.food.y * 40, 40, 40, rl.Color{ .r = 0, .g = 255, .b = 0, .a = 255 });
+        rl.DrawRectangle(self.food.x * 40, self.food.y * 40, 40, 40, rl.Color{ .r = 255, .g = 0, .b = 0, .a = 255 });
         var score_buffer: [20]u8 = undefined;
         var fbs = std.io.fixedBufferStream(&score_buffer);
         var writer = fbs.writer();
