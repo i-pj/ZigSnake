@@ -62,8 +62,8 @@ fn InitGame() void {
 
     // for screen position
     offset = rl.Vector2{
-        .x = @as(f32, @floatFromInt(@rem(screenWidth, SQUARE_SIZE))), // @rem calculates remainder and
-        .y = @as(f32, @floatFromInt(@rem(screenHeight, SQUARE_SIZE))), // @as does conversion between types(https://ziglang.org/documentation/master/#as)
+        .x = @as(f32, @floatFromInt(@rem(screenWidth, SQUARE_SIZE))), // @rem calculates remainder
+        .y = @as(f32, @floatFromInt(@rem(screenHeight, SQUARE_SIZE))), // and @as does conversion between types(https://ziglang.org/documentation/master/#as)
     };
 
     // snake positions
@@ -182,5 +182,78 @@ fn UpdateGame() void {
             InitGame();
             gameOver = false;
         }
+    }
+}
+
+fn drawGame() void {
+    rl.BeginDrawing();
+    rl.ClearBackground(rl.RAYWHITE);
+
+    if (!gameOver) {
+        // Draw grid lines
+        var i: i32 = 0;
+        while (i < @divTrunc(screenWidth, SQUARE_SIZE) + 1) : (i += 1) {
+            rl.DrawLineV(
+                rl.Vector2{ .x = @as(f32, @floatFromInt(SQUARE_SIZE * i)) + (offset.x / 2), .y = offset.y / 2 },
+                rl.Vector2{ .x = @as(f32, @floatFromInt(SQUARE_SIZE * i)) + (offset.x / 2), .y = @as(f32, @floatFromInt(screenHeight)) - (offset.y / 2) },
+                rl.LIGHTGRAY,
+            );
+        }
+
+        i = 0;
+        while (i < @divTrunc(screenHeight, SQUARE_SIZE) + 1) : (i += 1) {
+            rl.DrawLineV(
+                rl.Vector2{ .x = offset.x / 2, .y = @as(f32, @floatFromInt(SQUARE_SIZE * i)) + (offset.y / 2) },
+                rl.Vector2{ .x = @as(f32, @floatFromInt(screenWidth)) - (offset.x / 2), .y = @as(f32, @floatFromInt(SQUARE_SIZE * i)) + (offset.y / 2) },
+                rl.LIGHTGRAY,
+            );
+        }
+
+        // Draw snake
+        i = 0;
+        while (i < counterTail) : (i += 1) {
+            rl.DrawRectangleV(snake[@intCast(i)].position, snake[@intCast(i)].size, snake[@intCast(i)].color);
+        }
+
+        // Draw fruit to pick
+        rl.DrawRectangleV(fruit.position, fruit.size, fruit.color);
+
+        if (pause) {
+            rl.DrawText(
+                "GAME PAUSED",
+                @divTrunc(screenWidth, 2) - @divTrunc(rl.MeasureText("GAME PAUSED", 40), 2),
+                @divTrunc(screenHeight, 2) - 40,
+                40,
+                rl.GRAY,
+            );
+        }
+    } else {
+        rl.DrawText(
+            "PRESS [ENTER] TO PLAY AGAIN",
+            @divTrunc(screenWidth, 2) - @divTrunc(rl.MeasureText("PRESS [ENTER] TO PLAY AGAIN", 20), 2),
+            @divTrunc(screenHeight, 2) - 50,
+            20,
+            rl.GRAY,
+        );
+    }
+
+    rl.EndDrawing();
+}
+
+fn UpdateDrawFrame() void {
+    UpdateGame();
+    drawGame();
+}
+
+pub fn main() !void {
+    rl.InitWindow(screenWidth, screenHeight, "ZigSnake");
+    defer rl.CloseWindow();
+
+    rl.SetTargetFPS(60);
+
+    InitGame();
+
+    while (!rl.WindowShouldClose()) {
+        UpdateDrawFrame();
     }
 }
