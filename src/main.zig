@@ -68,3 +68,11 @@ fn InitGame() void {
     };
 
 
+    // snake positions
+    for (&snake) |*snake_part| {
+        snake_part.* = Snake.init();
+        snake_part.position = rl.Vector2Div(rl.Vector2{.x = offset.x,.y = offset.y }, rl.Vector2{.x = 2,.y = 2 });
+        if (snake_part != &snake[0]) {
+            snake_part.color = rl.BLUE;
+        }
+    }
