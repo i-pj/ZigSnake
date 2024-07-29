@@ -38,3 +38,16 @@ pub const Food = struct {
         };
     }
 };
+var screenWidth: i32 = 800;
+var screenHeight: i32 = 450;
+
+var framesCounter: i32 = 0;
+var gameOver: bool = false;
+var pause: bool = false;
+
+var fruit: Food = Food.init();
+var snake: [SNAKE_LENGTH]Snake = undefined;
+var snakePosition: [SNAKE_LENGTH]rl.Vector2 = undefined;
+var allowMove: bool = false;
+var offset: rl.Vector2 = rl.Vector2Zero();
+var counterTail: i32 = 0;
