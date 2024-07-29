@@ -51,3 +51,20 @@ var snakePosition: [SNAKE_LENGTH]rl.Vector2 = undefined;
 var allowMove: bool = false;
 var offset: rl.Vector2 = rl.Vector2Zero();
 var counterTail: i32 = 0;
+
+
+fn InitGame() void {
+    framesCounter = 0;
+    gameOver = false;
+    pause = false;
+
+    counterTail = 1;
+    allowMove = false;
+
+    // for screen position
+    offset = rl.Vector2{
+       .x = @as(f32, @floatFromInt(@rem(screenWidth, SQUARE_SIZE))), // @rem calculates remainder and @as does conversion between types(https://ziglang.org/documentation/master/#as)
+       .y = @as(f32, @floatFromInt(@rem(screenHeight, SQUARE_SIZE))),
+    };
+
+
