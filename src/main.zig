@@ -4,21 +4,24 @@ const rl = @cImport({
     @cInclude("raymath.h");
 });
 
-pub const Snake = struct {
-    x: i32,
-    y: i32,
-    speed: i32,
-    direction: Direction,
+pub const SNAKE_LENGTH = 256;
+pub const SQUARE_SIZE = 31;
 
-    pub fn init(x: i32, y: i32, speed: i32) Snake {
+pub const Snake = struct {
+    position: rl.Vector2,
+    size: rl.Vector2,
+    speed: rl.Vector2,
+    color: rl.Color,
+
+    fn init() Snake {
         return Snake{
-            .x = x,
-            .y = y,
-            .speed = speed,
-            .direction = .right,
+            .position = rl.Vector2Zero(),
+            .size = rl.Vector2{ .x = @as(f32, SQUARE_SIZE), .y = @as(f32, SQUARE_SIZE) },
+            .speed = rl.Vector2{ .x = @as(f32, SQUARE_SIZE), .y = 0 },
+            .color = rl.DARKBLUE,
         };
     }
-
+};
     pub fn move(self: *Snake) void {
         switch (self.direction) {
             .up => self.y -= self.speed,
