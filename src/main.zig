@@ -115,7 +115,7 @@ fn UpdateGame() void {
                 snakePosition[j] = snake[j].position;
             }
 
-            if (@rem(framesCounter, 5) == 0) {
+            if (@rem(framesCounter, 8) == 0) {
                 j = 0;
                 while (j < @as(usize, @intCast(counterTail))) : (j += 1) {
                     if (j == 0) {
