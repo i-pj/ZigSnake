@@ -22,31 +22,19 @@ pub const Snake = struct {
         };
     }
 };
-    pub fn move(self: *Snake) void {
-        switch (self.direction) {
-            .up => self.y -= self.speed,
-            .down => self.y += self.speed,
-            .left => self.x -= self.speed,
-            .right => self.x += self.speed,
-        }
-    }
-
-    pub const Direction = enum(i32) {
-        up,
-        down,
-        left,
-        right,
-    };
-};
 
 pub const Food = struct {
-    x: i32,
-    y: i32,
+    position: rl.Vector2,
+    size: rl.Vector2,
+    active: bool,
+    color: rl.Color,
 
-    pub fn init(x: i32, y: i32) Food {
+    fn init() Food {
         return Food{
-            .x = x,
-            .y = y,
+            .position = rl.Vector2Zero(),
+            .size = rl.Vector2{ .x = @as(f32, SQUARE_SIZE), .y = @as(f32, SQUARE_SIZE) },
+            .active = false,
+            .color = rl.SKYBLUE,
         };
     }
 };
