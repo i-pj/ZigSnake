@@ -76,3 +76,38 @@ fn InitGame() void {
             snake_part.color = rl.BLUE;
         }
     }
+
+    // snake positions array
+    for (&snakePosition) |*position| {
+        position.* = rl.Vector2Zero();
+    }
+
+    fruit.size = rl.Vector2{.x = @as(f32, SQUARE_SIZE),.y = @as(f32, SQUARE_SIZE) };
+    fruit.color = rl.SKYBLUE;
+    fruit.active = false;
+}
+
+fn UpdateGame() void {
+    if (!gameOver) {
+        if (rl.IsKeyPressed(rl.KEY_P)) {
+            pause =!pause;
+        }
+
+        if (!pause) {
+            // Player controls
+            if (rl.IsKeyPressed(rl.KEY_RIGHT) and (snake[0].speed.x == 0) and allowMove) {
+                snake[0].speed = rl.Vector2{.x = @as(f32, SQUARE_SIZE),.y = 0 };
+                allowMove = false;
+            }
+            if (rl.IsKeyPressed(rl.KEY_LEFT) and (snake[0].speed.x == 0) and allowMove) {
+                snake[0].speed = rl.Vector2{.x = @as(f32, -SQUARE_SIZE),.y = 0 };
+                allowMove = false;
+            }
+            if (rl.IsKeyPressed(rl.KEY_UP) and (snake[0].speed.y == 0) and allowMove) {
+                snake[0].speed = rl.Vector2{.x = 0,.y = @as(f32, -SQUARE_SIZE) };
+                allowMove = false;
+            }
+            if (rl.IsKeyPressed(rl.KEY_DOWN) and (snake[0].speed.y == 0) and allowMove) {
+                snake[0].speed = rl.Vector2{.x = 0,.y = @as(f32, SQUARE_SIZE) };
+                allowMove = false;
+            }
